@@ -14,6 +14,9 @@
 #define ZMK_HID_USAGE_ID(usage) (usage & 0xFFFF)
 #define ZMK_HID_USAGE_PAGE(usage) ((usage >> 16) & 0xFF)
 
+#define HID_USAGE_APPLE_VENDOR_TOP_CASE (0xFF) // AppleVendor Top Case
+#define HID_USAGE_APPLE_TOP_CASE_FN (0x03)     // Fn / Globe
+
 /* WARNING: DEPRECATED from dt-bindings/zmk/keys.h */
 #define USAGE_KEYPAD (0x07)   // WARNING: DEPRECATED (DO NOT USE)
 #define USAGE_CONSUMER (0x0C) // WARNING: DEPRECATED (DO NOT USE)

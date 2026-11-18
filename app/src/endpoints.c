@@ -255,6 +255,11 @@ int zmk_endpoint_send_report(uint16_t usage_page) {
 
     case HID_USAGE_CONSUMER:
         return send_consumer_report();
+
+#if IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
+    case HID_USAGE_APPLE_VENDOR_TOP_CASE:
+        return send_keyboard_report();
+#endif // IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
     }
 
     LOG_ERR("Unsupported usage page %d", usage_page);

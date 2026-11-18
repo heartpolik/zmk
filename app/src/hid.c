@@ -347,6 +347,14 @@ int zmk_hid_press(uint32_t usage) {
         return zmk_hid_keyboard_press(ZMK_HID_USAGE_ID(usage));
     case HID_USAGE_CONSUMER:
         return zmk_hid_consumer_press(ZMK_HID_USAGE_ID(usage));
+#if IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
+    case HID_USAGE_APPLE_VENDOR_TOP_CASE:
+        if (ZMK_HID_USAGE_ID(usage) != HID_USAGE_APPLE_TOP_CASE_FN) {
+            return -EINVAL;
+        }
+        keyboard_report.body._reserved |= BIT(0);
+        return 0;
+#endif // IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
     }
     return -EINVAL;
 }
@@ -357,6 +365,14 @@ int zmk_hid_release(uint32_t usage) {
         return zmk_hid_keyboard_release(ZMK_HID_USAGE_ID(usage));
     case HID_USAGE_CONSUMER:
         return zmk_hid_consumer_release(ZMK_HID_USAGE_ID(usage));
+#if IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
+    case HID_USAGE_APPLE_VENDOR_TOP_CASE:
+        if (ZMK_HID_USAGE_ID(usage) != HID_USAGE_APPLE_TOP_CASE_FN) {
+            return -EINVAL;
+        }
+        keyboard_report.body._reserved &= ~BIT(0);
+        return 0;
+#endif // IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
     }
     return -EINVAL;
 }
@@ -367,6 +383,11 @@ bool zmk_hid_is_pressed(uint32_t usage) {
         return zmk_hid_keyboard_is_pressed(ZMK_HID_USAGE_ID(usage));
     case HID_USAGE_CONSUMER:
         return zmk_hid_consumer_is_pressed(ZMK_HID_USAGE_ID(usage));
+#if IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
+    case HID_USAGE_APPLE_VENDOR_TOP_CASE:
+        return ZMK_HID_USAGE_ID(usage) == HID_USAGE_APPLE_TOP_CASE_FN &&
+               (keyboard_report.body._reserved & BIT(0));
+#endif // IS_ENABLED(CONFIG_ZMK_HID_APPLE_FN)
     }
     return false;
 }

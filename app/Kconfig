@@ -45,6 +45,13 @@ config BT_DIS_PNP_PID
 config BT_DIS_PNP_VID_SRC
     default 2
 
+config ZMK_HID_APPLE_FN
+    bool "Report the Apple Fn/Globe key (AppleVendor Top Case page 0xFF, usage 0x03)"
+    help
+      Replaces the reserved byte of the keyboard report with the Apple vendor
+      Fn key bit. macOS only honours it when the device presents an Apple
+      VID/PID (USB_DEVICE_VID / BT_DIS_PNP_VID). Use keycode APPLE_FN.
+
 config BT_DIS_MODEL_NUMBER_STR
     default ZMK_KEYBOARD_NAME
 
